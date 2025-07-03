@@ -12,4 +12,16 @@ translateBtn.addEventListener("click", async () => {
   }
 
   resultDiv.textContent = "⏳ Translating...";
+
+  try {
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang.value}|${targetLang.value}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const translation = data.responseData.translatedText;
+    resultDiv.textContent = `${translation}`;
+  } catch (err) {
+    console.error("Translation failed:", err);
+    resultDiv.textContent = "Translation failed.";
+  }
 });
